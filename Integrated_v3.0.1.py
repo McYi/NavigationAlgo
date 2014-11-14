@@ -285,9 +285,12 @@ def onTheWay(q, curX, curY, nextNode):
     print "distLeft = ", distLeft
 
     # Obstacle detection, higher priority
-    if sonicFrontL <= SONIC_OBSTACLE_FT_RANGE or sonicFrontR <= SONIC_OBSTACLE_FT_RANGE or sonicDown <= SONIC_OBSTACLE_FT_RANGE:
+    if SonicDown <= SONIC_OBSTACLE_FT_RANGE:
+        print "stop"
         soundOnTheWay = "stop.wav"
-        print 'shyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyt'
+    elif SonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL <= SONIC_OBSTACLE_FT_RANGE:
+        print "stop"
+        soundOnTheWay = "stop.wav"
     elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE and sonicFrontR > 100:
         print "steer_right"
         soundOnTheWay = "steer_right.wav"
@@ -577,8 +580,8 @@ while inFlag:
         startNode = startLoc
         isNextBuilding = True
 
-    endLoc = int(endLoc);
-    startLoc = int(startLoc);
+    endLoc = int(endLoc)
+    startLoc = int(startLoc)
     string = 'http://ShowMyWay.comp.nus.edu.sg/getMapInfo.php?Building=COM'
     string = string + endBuildingNum + '&Level=' + endLevelNum
 
