@@ -218,8 +218,12 @@ def Navigation(q):
                     arrived = 1
                     onTrack = 1
                     if isNextBuilding is False:
+                        while pygame.mixer.music.get_busy() == True:
+                            continue
                         print "we're here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
                         playSound("destination_reached.wav")
+                        while pygame.mixer.music.get_busy() == True:
+                            continue
                         exitFlag = 1
                     else:
                         reini(q)
@@ -319,11 +323,6 @@ def readingCali(num):
     return num
 
 
-def angleCal(y, x):
-    dir = degrees(atan2(y, x))
-    return dir
-
-
 def findDirection(q, y, x, heading, north):
     global correctDir, baseAngle, count
     #print "y: " , y, "x: ", x
@@ -334,7 +333,7 @@ def findDirection(q, y, x, heading, north):
     baseAngle = next
     degree = next - heading
     lr = ''
-    sound = None
+    sound = "None"
 
     print 'heading: ', heading, '  next: ', next, '  degree:', degree
     if -359 < degree < -355:
@@ -377,7 +376,7 @@ def findDirection(q, y, x, heading, north):
     with q.mutex:
         q.queue.clear()
 
-    if sound is not None:
+    if sound is not "None":
         playSound(sound)
 
 
@@ -669,6 +668,7 @@ while countAcc < 40:
             countAcc += 1
 accOffset = sumAcc / 40
 read = ''
+playSound("move_forward.wav")
 
 while exitFlag == 0:
     ReadUART(dataQueue)
