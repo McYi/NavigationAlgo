@@ -606,18 +606,18 @@ while inFlag:
         mapNode = len(json_data["map"])
         wifiNode = len(json_data["wifi"])
         north = int(json_data['info']['northAt'])
+        if endLoc > mapNode:
+        #print type(endNode), endNode, type(startNode), startNode, type(mapNode), mapNode
+            print "Error Encountered When Reading Data! 2"
+            playSound("warning.wav")
+            inFlag = True
+            countKey = 0
     except (NameError, ValueError, TypeError):
         print "Error Encountered When Reading Data! 1"
         playSound("warning.wav")
         inFlag = True
         countKey = 0
     
-    if endLoc > mapNode:
-        #print type(endNode), endNode, type(startNode), startNode, type(mapNode), mapNode
-        print "Error Encountered When Reading Data! 2"
-        playSound("warning.wav")
-        inFlag = True
-        countKey = 0
 
     string = 'http://ShowMyWay.comp.nus.edu.sg/getMapInfo.php?Building=COM'
     string = string + buildingNum + '&Level=' + levelNum
@@ -628,18 +628,17 @@ while inFlag:
         mapNode = len(json_data["map"])
         wifiNode = len(json_data["wifi"])
         north = int(json_data['info']['northAt'])
+        if startLoc > mapNode:
+            print "Error Encountered When Reading Data! 4"
+            playSound("warning.wav")
+            inFlag = True
+            countKey = 0
     except (NameError, ValueError, TypeError):
         print "Error Encountered When Reading Data! 3"
         playSound("warning.wav")
         inFlag = True
         countKey = 0
-
-    if startLoc > mapNode:
-        print "Error Encountered When Reading Data! 4"
-        playSound("warning.wav")
-        inFlag = True
-        countKey = 0
-
+    
 
 for i in range(0, mapNode):
     data = json_data['map'][i]['nodeName'].split('-')
