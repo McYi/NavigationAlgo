@@ -580,9 +580,22 @@ while inFlag:
         startNode = startLoc
         isNextBuilding = True
 
+    try:
+        endLoc = int(endLoc)
+    except ValueError:
+        print "Please input something else!"
+        playSound("warning.wav")
+        inFlag = True
+        countKey = 0
 
-    endLoc = int(endLoc)
-    startLoc = int(startLoc)
+    try:
+        startLoc = int(startLoc)
+    except ValueError:
+        print "Please input something else!"
+        playSound("warning.wav")
+        inFlag = True
+        countKey = 0
+
 
     string = 'http://ShowMyWay.comp.nus.edu.sg/getMapInfo.php?Building=COM'
     string = string + endBuildingNum + '&Level=' + endLevelNum
@@ -633,7 +646,7 @@ for i in range(0, mapNode):
     if len(data) > 1 and data[0] == 'TO COM' + str(endBuildingNum):
         endNode = json_data['map'][i]['nodeId']
 
-start, end = [startNode, endNode]
+start, end = [int(startNode), int(endNode)]
 read = ''
 Startup(dataQueue)
 countAcc = 0
