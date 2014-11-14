@@ -9,7 +9,7 @@ from heapq import heappush, heappop
 from math import sqrt, pow, atan2, degrees, log10, cos, sin, pi
 
 # Constants
-STEP_LENGTH = 56.74 # assume the step length is 0.74m
+STEP_LENGTH = 71.5 # assume the step length is 0.74m
 COUNT_CALI_DIRETION = 10
 ONTHEWAY_DIR_ERROR = 10
 FINDDIR_DIR_ERROR = 5
