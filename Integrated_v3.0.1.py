@@ -44,27 +44,27 @@ def ReadUART(q):
             except (TypeError, ValueError):
                 print "Erroneous Data Received!"
             # SonicFrontL
-            if data[0] < SONIC_ERROR_RANGE or data[0] > SONIC_MAX_DIST:
+            if int(data[0]) < SONIC_ERROR_RANGE or int(data[0]) > SONIC_MAX_DIST:
                 sonicFrontL = SONIC_MAX_DIST
             else:
                 sonicFrontL = int(data[0])
             # SonicFrontR
-            if data[1] < SONIC_ERROR_RANGE or data[0] > SONIC_MAX_DIST:
+            if int(data[1]) < SONIC_ERROR_RANGE or int(data[1]) > SONIC_MAX_DIST:
                 sonicFrontR = SONIC_MAX_DIST
             else:
                 sonicFrontR = int(data[1])
             # SonicLeft
-            if data[2] < SONIC_ERROR_RANGE or data[0] > SONIC_MAX_DIST:
+            if int(data[2]) < SONIC_ERROR_RANGE or int(data[2]) > SONIC_MAX_DIST:
                 sonicLeft = SONIC_MAX_DIST
             else:
                 sonicLeft = int(data[2])
             # SonicRight
-            if data[3] < SONIC_ERROR_RANGE or data[0] > SONIC_MAX_DIST:
+            if int(data[3]) < SONIC_ERROR_RANGE or int(data[3]) > SONIC_MAX_DIST:
                 sonicRight = SONIC_MAX_DIST
             else:
                 sonicRight = int(data[3])
             # SonicDown
-            if data[4] < SONIC_ERROR_RANGE or data[0] > SONIC_MAX_DIST:
+            if int(data[4]) < SONIC_ERROR_RANGE or int(data[4]) > SONIC_MAX_DIST:
                 sonicDown = SONIC_MAX_DIST
             else:
                 sonicDown = int(data[4])
@@ -285,10 +285,10 @@ def onTheWay(q, curX, curY, nextNode):
     print "distLeft = ", distLeft
 
     # Obstacle detection, higher priority
-    if SonicDown <= SONIC_OBSTACLE_FT_RANGE:
+    if sonicDown <= SONIC_OBSTACLE_FT_RANGE:
         print "stop"
         soundOnTheWay = "stop.wav"
-    elif SonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL <= SONIC_OBSTACLE_FT_RANGE:
+    elif sonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL <= SONIC_OBSTACLE_FT_RANGE:
         print "stop"
         soundOnTheWay = "stop.wav"
     elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE and sonicFrontR > 100:
