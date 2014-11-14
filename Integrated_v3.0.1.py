@@ -289,10 +289,10 @@ def onTheWay(q, curX, curY, nextNode):
     print "distLeft = ", distLeft
 
     # Obstacle detection, higher priority
-    if sonicDown <= SONIC_OBSTACLE_FT_RANGE:
+    if SonicDown <= SONIC_OBSTACLE_FT_RANGE:
         print "stop"
         soundOnTheWay = "stop.wav"
-    elif sonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL <= SONIC_OBSTACLE_FT_RANGE:
+    elif SonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL <= SONIC_OBSTACLE_FT_RANGE:
         print "stop"
         soundOnTheWay = "stop.wav"
     elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE and sonicFrontR > 100:
