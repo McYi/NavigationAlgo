@@ -16,7 +16,7 @@ FINDDIR_DIR_ERROR = 5
 SONIC_MAX_DIST = 170
 SONIC_OBSTACLE_LR_RANGE = 55
 SONIC_OBSTACLE_FT_RANGE = 70
-SONIC_DIST_ADJ_RANGE = 120
+SONIC_DIST_ADJ_RANGE = 70
 SONIC_ERROR_RANGE = 5
 
 # Reading data from Arduino Mega
@@ -190,9 +190,9 @@ def DistCalculation(q):
 
             # Adjusting the distance by ultrasonic
             if sonicRight <= SONIC_OBSTACLE_LR_RANGE:
-                distCorrect -= 10
+                distCorrect -= 8
             elif sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
-                distCorrect -= 10
+                distCorrect -= 8
 
 
 def Navigation(q):
