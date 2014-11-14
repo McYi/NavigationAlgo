@@ -190,9 +190,9 @@ def DistCalculation(q):
 
             # Adjusting the distance by ultrasonic
             if sonicRight <= SONIC_OBSTACLE_LR_RANGE:
-                distCorrect -= 5
+                distCorrect -= 10
             elif sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
-                distCorrect -= 5
+                distCorrect -= 10
 
 
 def Navigation(q):
