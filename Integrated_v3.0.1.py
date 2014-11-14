@@ -9,13 +9,14 @@ from heapq import heappush, heappop
 from math import sqrt, pow, atan2, degrees, log10, cos, sin, pi
 
 # Constants
-STEP_LENGTH = 71.5 # assume the step length is 0.74m
+STEP_LENGTH = 68 
 COUNT_CALI_DIRETION = 10
 ONTHEWAY_DIR_ERROR = 10
 FINDDIR_DIR_ERROR = 5
 SONIC_MAX_DIST = 170
 SONIC_OBSTACLE_LR_RANGE = 55
 SONIC_OBSTACLE_FT_RANGE = 70
+SONIC_DIST_ADJ_RANGE = 120
 SONIC_ERROR_RANGE = 5
 
 # Reading data from Arduino Mega
@@ -177,15 +178,21 @@ def DistCalculation(q):
             if degree < 0:
                 degree += 360
 
-            # Adjusting the distance
+            # Adjusting the distance by compass
             if 180 >= degree > 5:
                 soundOnTheWay = "rotate_right.wav"
-                distCorrect -= STEP_LENGTH * (1 - cos(ONTHEWAY_DIR_ERROR * pi / 180))
+                distCorrect -= 10
             elif 355 > degree > 180:
                 soundOnTheWay = "rotate_left.wav"
-                distCorrect -= STEP_LENGTH * (1 - cos(ONTHEWAY_DIR_ERROR * pi / 180))
+                distCorrect -= 10
             else:
                 soundOnTheWay = "move_forward.wav"
+
+            # Adjusting the distance by ultrasonic
+            if sonicRight <= SONIC_OBSTACLE_LR_RANGE:
+                distCorrect -= 5
+            elif sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
+                distCorrect -= 5
 
 
 def Navigation(q):
@@ -276,7 +283,7 @@ def reini(q):
     
 
 def onTheWay(q, curX, curY, nextNode):
-    global soundOnTheWay, distLeft, distCorrect, correctDir
+    global soundOnTheWay, distLeft, distCorrect, correctDir, countLeft, countRight
     curPosition = nearNode(curX, curY)
     if curPosition == nextNode:
         playSound("stop")
@@ -302,13 +309,21 @@ def onTheWay(q, curX, curY, nextNode):
         print "steer_left sonic front"
         soundOnTheWay = "steer_left.wav"
     elif sonicRight <= SONIC_OBSTACLE_LR_RANGE:
+        countLeft += 1
+        countRight = 0
+    elif sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
+        countRight += 1
+        countLeft = 0
+    
+
+    if countLeft > 10:
         print "steer_left "
         soundOnTheWay = "steer_left.wav"
-    elif sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
+        countLeft = 0
+    elif countRight > 10:
         print "steer_right"
         soundOnTheWay = "steer_right.wav"
-   # else:
-     #   soundOnTheWay = "move_forward.wav"
+        countRight = 0
 
     if soundOnTheWay != '':
         playSound(soundOnTheWay)
@@ -361,12 +376,12 @@ def findDirection(q, y, x, heading, north):
 
     # When step count failed to reach the destination (travelled distance is less than expected)'
     if firstTime == 0:
-        if lr == 'right' and sonicRight <= SONIC_OBSTACLE_LR_RANGE:
+        if lr == 'right' and sonicRight <= SONIC_DIST_ADJ_RANGE:
             if sonicFrontL > SONIC_OBSTACLE_FT_RANGE and sonicFrontR > SONIC_OBSTACLE_FT_RANGE:
                 sound = "move_one_step_forward.wav"
             elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE or sonicFrontR <= SONIC_OBSTACLE_FT_RANGE:
                 sound = "stop.wav"
-        elif lr == 'left' and sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
+        elif lr == 'left' and sonicLeft <= SONIC_DIST_ADJ_RANGE:
             if sonicFrontL > SONIC_OBSTACLE_FT_RANGE and sonicFrontR > SONIC_OBSTACLE_FT_RANGE:
                 sound = "move_one_step_forward.wav"
             elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE or sonicFrontR <= SONIC_OBSTACLE_FT_RANGE:
@@ -523,6 +538,8 @@ sonicDown = SONIC_MAX_DIST
 arrived = 0
 onTrack = 0
 firstTime = 1
+countLeft = 0
+countRight = 0
 
 # Program STARTS from here
 # Read the keypad input from the user and determine the destination and the route
