@@ -189,7 +189,7 @@ def DistCalculation(q):
 
 
 def Navigation(q):
-    global exitFlag, distLeft, nextNode, arrived, onTrack, prevPosition, curPosition, path, curX, curY, correctDir, isNextBuilding
+    global exitFlag, distLeft, nextNode, arrived, onTrack, prevPosition, curPosition, path, curX, curY, correctDir, isNextBuilding, firstTime
     nextX = "000"
     nextY = "000"
     check = 0
@@ -307,8 +307,8 @@ def onTheWay(q, curX, curY, nextNode):
     elif sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
         print "steer_right"
         soundOnTheWay = "steer_right.wav"
-    else:
-        soundOnTheWay = "move_forward.wav"
+   # else:
+     #   soundOnTheWay = "move_forward.wav"
 
     if soundOnTheWay != '':
         playSound(soundOnTheWay)
@@ -326,7 +326,7 @@ def readingCali(num):
 
 
 def findDirection(q, y, x, heading, north):
-    global correctDir, baseAngle, count
+    global correctDir, baseAngle, count, firstTime
     #print "y: " , y, "x: ", x
     next = degrees(atan2(y, x))
 
@@ -359,21 +359,24 @@ def findDirection(q, y, x, heading, north):
     else:
         count += 1
 
-    # When step count failed to reach the destination (travelled distance is less than expected)
-    if lr == 'right' and sonicRight <= SONIC_OBSTACLE_LR_RANGE:
-        if sonicFrontL > SONIC_OBSTACLE_FT_RANGE and sonicFrontR > SONIC_OBSTACLE_FT_RANGE:
-            sound = "move_one_step_forward.wav"
-        elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE or sonicFrontR <= SONIC_OBSTACLE_FT_RANGE:
-            sound = "stop.wav"
-    elif lr == 'left' and sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
-        if sonicFrontL > SONIC_OBSTACLE_FT_RANGE and sonicFrontR > SONIC_OBSTACLE_FT_RANGE:
-            sound = "move_one_step_forward.wav"
-        elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE or sonicFrontR <= SONIC_OBSTACLE_FT_RANGE:
-            sound = "stop.wav"
-    elif lr == '':
+    # When step count failed to reach the destination (travelled distance is less than expected)'
+    if firstTime == 0:
+        if lr == 'right' and sonicRight <= SONIC_OBSTACLE_LR_RANGE:
+            if sonicFrontL > SONIC_OBSTACLE_FT_RANGE and sonicFrontR > SONIC_OBSTACLE_FT_RANGE:
+                sound = "move_one_step_forward.wav"
+            elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE or sonicFrontR <= SONIC_OBSTACLE_FT_RANGE:
+                sound = "stop.wav"
+        elif lr == 'left' and sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
+            if sonicFrontL > SONIC_OBSTACLE_FT_RANGE and sonicFrontR > SONIC_OBSTACLE_FT_RANGE:
+                sound = "move_one_step_forward.wav"
+            elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE or sonicFrontR <= SONIC_OBSTACLE_FT_RANGE:
+                sound = "stop.wav"
+    
+    if lr == '':
         if count == COUNT_CALI_DIRETION:
             sound = "move_forward.wav"
             correctDir = 1
+            firstTime = 0
 
     with q.mutex:
         q.queue.clear()
@@ -519,6 +522,7 @@ sonicRight = SONIC_MAX_DIST
 sonicDown = SONIC_MAX_DIST
 arrived = 0
 onTrack = 0
+firstTime = 1
 
 # Program STARTS from here
 # Read the keypad input from the user and determine the destination and the route
