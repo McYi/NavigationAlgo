@@ -289,12 +289,16 @@ def onTheWay(q, curX, curY, nextNode):
         soundOnTheWay = "stop.wav"
         print 'shyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyt'
     elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE and sonicFrontR > 100:
+        print "steer_right"
         soundOnTheWay = "steer_right.wav"
     elif sonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL > 100:
+        print "steer_left"
         soundOnTheWay = "steer_left.wav"
     elif sonicRight <= SONIC_OBSTACLE_LR_RANGE:
+        print "steer_left"
         soundOnTheWay = "steer_left.wav"
     elif sonicLeft <= SONIC_OBSTACLE_LR_RANGE:
+        print "steer_right"
         soundOnTheWay = "steer_right.wav"
 
     if soundOnTheWay != '':
