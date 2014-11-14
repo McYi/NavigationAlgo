@@ -577,8 +577,15 @@ while inFlag:
         startNode = startLoc
         isNextBuilding = True
 
-    endLoc = int(endLoc);
-    startLoc = int(startLoc);
+    try:
+		endLoc = int(endLoc);
+    except (NameError):
+		print "Please input something"
+	try:
+		startLoc = int(startLoc);
+	except (NameError):
+		print "Please input something"
+		
     string = 'http://ShowMyWay.comp.nus.edu.sg/getMapInfo.php?Building=COM'
     string = string + endBuildingNum + '&Level=' + endLevelNum
 
@@ -598,7 +605,7 @@ while inFlag:
         #print type(endNode), endNode, type(startNode), startNode, type(mapNode), mapNode
         print "Error Encountered When Reading Data! 2"
         playSound("warning.wav")
-        inFlag = Trues
+        inFlag = True
         countKey = 0
 
     string = 'http://ShowMyWay.comp.nus.edu.sg/getMapInfo.php?Building=COM'
