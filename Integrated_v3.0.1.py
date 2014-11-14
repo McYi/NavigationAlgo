@@ -289,10 +289,10 @@ def onTheWay(q, curX, curY, nextNode):
     print "distLeft = ", distLeft
 
     # Obstacle detection, higher priority
-    if SonicDown <= SONIC_OBSTACLE_FT_RANGE:
+    if sonicDown <= SONIC_OBSTACLE_FT_RANGE:
         print "stop"
         soundOnTheWay = "stop.wav"
-    elif SonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL <= SONIC_OBSTACLE_FT_RANGE:
+    elif sonicFrontR <= SONIC_OBSTACLE_FT_RANGE and sonicFrontL <= SONIC_OBSTACLE_FT_RANGE:
         print "stop"
         soundOnTheWay = "stop.wav"
     elif sonicFrontL <= SONIC_OBSTACLE_FT_RANGE and sonicFrontR > 100:
@@ -668,7 +668,6 @@ while countAcc < 40:
             countAcc += 1
 accOffset = sumAcc / 40
 read = ''
-playSound("move_forward.wav")
 
 while exitFlag == 0:
     ReadUART(dataQueue)
